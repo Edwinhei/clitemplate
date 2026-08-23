@@ -2,5 +2,3 @@
 
 - id: hello
   name: './apps/cli/src/plugins/hello.ts'
-- id: hello2                                  # ← id 必须不同，否则报重复
-  name: './apps/cli/src/plugins/hello.ts'
