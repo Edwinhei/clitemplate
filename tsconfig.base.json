@@ -5,10 +5,10 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     "strict": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "declaration": true,
-    "types": ["node"]
+    "declaration": true
   }
 }
