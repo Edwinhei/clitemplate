@@ -2,7 +2,9 @@
   "name": "clitemplate",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "ctl": "node --import tsx apps/cli/src/bin.ts"
+  },
   "devDependencies": {
     "tsx": "^4.23.12",
     "typescript": "^5.9.0"
