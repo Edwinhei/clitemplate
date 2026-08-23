@@ -2,10 +2,11 @@
 /**
  * ctl —— 命令行入口。
  *
- * 这一步【故意还没有 Cordis】：
- * monorepo 里最容易翻车的不是框架，是包之间的引用。
- * 先确认「一个 workspace 包能被正确解析和执行」，下一步再接框架。
+ * 从这一步开始，bin.ts 不再决定「程序做什么」——
+ * 它只负责把 Cordis 启动起来，剩下的交给 cordis.yml。
  */
+import { resolve } from 'node:path'
+import { boot } from './boot.ts'
 
 const argv = process.argv.slice(2)
 
@@ -13,9 +14,16 @@ if (argv[0] === '--help' || argv[0] === '-h') {
   console.log(`用法: ctl [参数...]
 
   一个可成长的 Cordis CLI 模板。
-  当前进度：步骤 1（还没接入 Cordis）`)
+  实际行为由 cordis.yml 决定。`)
   process.exit(0)
 }
 
-console.log('ctl 启动了')
-console.log('收到参数:', argv.length ? argv : '(无)')
+// 允许用环境变量换一份清单 —— 「同一个程序，不同组合」的第一步
+const configPath = resolve(process.env.CTL_CONFIG ?? 'cordis.yml')
+
+try {
+  await boot(configPath)
+} catch (error) {
+  console.error(error)
+  process.exit(1)
+}
