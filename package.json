@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "ctl": "node --import tsx apps/cli/src/bin.ts"
+    "ctl": "node apps/cli/src/bin.ts",
+    "ctl:tsx": "node --import tsx apps/cli/src/bin.ts"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
