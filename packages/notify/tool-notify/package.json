@@ -1,0 +1,22 @@
+{
+  "name": "@ctl/tool-notify",
+  "description": "notify 消费方：启动时发一条通知，示范消费方只认招牌、不认实现",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  }
+}

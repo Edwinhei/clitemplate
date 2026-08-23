@@ -2,5 +2,16 @@
 # 这个 app 的【默认组合】。
 # 部署时的实际组合，未来由 patch 层覆盖（步骤 9）。
 
+# 这个 app 的默认组合。
+
 - id: hello
-  name: './src/plugins/hello.ts'     # ← 原来是 './apps/cli/src/plugins/hello.ts'
+  name: './src/plugins/hello.ts'      # 本地插件：相对路径
+
+- id: notify                           # ← 提供方
+  name: '@ctl/notify-file'             #   换实现只改这一行
+  config:
+    path: './notify.log'               #   相对 cordis.yml 所在目录
+
+- id: tool-notify                      # ← 消费方
+  name: '@ctl/tool-notify'
+

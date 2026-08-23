@@ -1,0 +1,22 @@
+{
+  "name": "@ctl/notify-console",
+  "description": "notify 提供方：把通知打到控制台。实现契约，不认识任何消费方",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  }
+}

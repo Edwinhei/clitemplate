@@ -1,14 +1,26 @@
 {
   "name": "@ctl/cli",
+  "description": "CLI 装配层：唯一的宿主，负责 boot、持有 cordis.yml、决定装哪些插件",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "bin": {
     "ctl": "./src/bin.ts"
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
-    "@deepseek-ai/cordis": "^4.0.1",
-    "@deepseek-ai/cordis-plugin-include": "^1.0.6",
-    "@deepseek-ai/cordis-plugin-loader": "^1.0.2"
+    "@ctl/notify": "workspace:*",
+    "@ctl/notify-console": "workspace:*",
+    "@ctl/notify-file": "workspace:*",
+    "@ctl/tool-notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:",
+    "@deepseek-ai/cordis-plugin-include": "catalog:",
+    "@deepseek-ai/cordis-plugin-loader": "catalog:",
+    "node-addon-require-builtin": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
   }
 }

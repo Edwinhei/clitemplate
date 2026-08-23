@@ -1,0 +1,23 @@
+{
+  "name": "@ctl/notify-file",
+  "description": "notify 提供方：把通知追加写入文件。需要 Node 环境",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:",
+    "@types/node": "catalog:"
+  }
+}

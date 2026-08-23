@@ -2,13 +2,17 @@
   "name": "clitemplate",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.17.0",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
   "scripts": {
     "ctl": "node apps/cli/src/bin.ts",
-    "ctl:tsx": "node --import tsx apps/cli/src/bin.ts"
+    "ctl:tsx": "node --import tsx apps/cli/src/bin.ts",
+    "typecheck": "pnpm -r run typecheck"
   },
   "devDependencies": {
-    "@types/node": "^26.2.0",
-    "tsx": "^4.23.12",
-    "typescript": "^5.9.0"
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   }
 }
