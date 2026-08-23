@@ -1,0 +1,10 @@
+{
+  "name": "clitemplate",
+  "private": true,
+  "type": "module",
+  "scripts": {},
+  "devDependencies": {
+    "tsx": "^4.23.12",
+    "typescript": "^5.9.0"
+  }
+}

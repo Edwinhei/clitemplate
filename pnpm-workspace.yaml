@@ -1,0 +1,3 @@
+packages:
+  - 'apps/*'
+  - 'packages/*/*'  # 两层：能力域/包
