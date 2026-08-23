@@ -1,11 +1,5 @@
-#!/usr/bin/env node
-/**
- * ctl —— 命令行入口。
- *
- * 从这一步开始，bin.ts 不再决定「程序做什么」——
- * 它只负责把 Cordis 启动起来，剩下的交给 cordis.yml。
- */
-import { resolve } from 'node:path'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { boot } from './boot.ts'
 
 const argv = process.argv.slice(2)
@@ -18,8 +12,12 @@ if (argv[0] === '--help' || argv[0] === '-h') {
   process.exit(0)
 }
 
-// 允许用环境变量换一份清单 —— 「同一个程序，不同组合」的第一步
-const configPath = resolve(process.env.CTL_CONFIG ?? 'cordis.yml')
+// 默认用【本包自带】的组合，而不是当前工作目录 ——
+// 否则你在别的目录敲 ctl，它会去那个目录找 cordis.yml
+const DEFAULT_CONFIG = resolve(dirname(fileURLToPath(import.meta.url)), '../cordis.yml')
+
+// 环境变量可以整份换掉 —— 「同一个程序，不同组合」的最简形式
+const configPath = resolve(process.env.CTL_CONFIG ?? DEFAULT_CONFIG)
 
 try {
   await boot(configPath)

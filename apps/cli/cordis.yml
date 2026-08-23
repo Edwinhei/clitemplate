@@ -1,0 +1,6 @@
+# apps/cli/cordis.yml
+# 这个 app 的【默认组合】。
+# 部署时的实际组合，未来由 patch 层覆盖（步骤 9）。
+
+- id: hello
+  name: './src/plugins/hello.ts'     # ← 原来是 './apps/cli/src/plugins/hello.ts'

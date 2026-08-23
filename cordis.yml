@@ -1,4 +1,0 @@
-# 这份清单就是「应用」本身。
-
-- id: hello
-  name: './apps/cli/src/plugins/hello.ts'
