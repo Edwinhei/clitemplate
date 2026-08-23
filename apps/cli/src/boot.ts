@@ -13,6 +13,7 @@ import { dirname } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { Context } from '@deepseek-ai/cordis'
 import Loader from '@deepseek-ai/cordis-plugin-loader'
+import { assertEntriesActivated } from './audit.ts'      // ← 加这行
 
 export async function boot(configPath: string): Promise<Context> {
   const ctx = new Context()
@@ -28,6 +29,8 @@ export async function boot(configPath: string): Promise<Context> {
     name: '@deepseek-ai/cordis-plugin-include',
     config: { path: configPath },
   })
+
+  await assertEntriesActivated(ctx, 'ctl')               // ← 加这行
 
   return ctx
 }
