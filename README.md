@@ -4,6 +4,8 @@
 
 pnpm workspace monorepo：`apps/` 放产品装配，`packages/<能力域>/<包>/` 放能力。
 
+> **📖 完整的构建过程、设计取舍、已踩的坑：[docs/构建日志.md](docs/构建日志.md)**
+
 ## 成长路线
 
 - [x] 步骤 0：workspace 骨架
