@@ -13,7 +13,11 @@ class ConsoleNotify extends Service implements NotifyService {
   }
 
   async send(msg: Notification): Promise<void> {
-    console.log(`📣 [${msg.to}] ${msg.title}${msg.body ? '\n   ' + msg.body : ''}`)
+    // 走 ctx.logger 而不是 console.log —— 它自己也是一块招牌，
+    // 所以通知内容最终去哪儿（终端 / 文件 / 远程）由装配层决定
+    // 显式指定 logger 名字。不写的话会用类名推导出的 'console-notify'，
+    // 和包名对不上，排查时容易懵。
+    this.ctx.logger('notify-console').info('[%s] %s%s', msg.to, msg.title, msg.body ? ' | ' + msg.body : '')
   }
 }
 

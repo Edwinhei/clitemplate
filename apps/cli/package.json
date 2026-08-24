@@ -14,6 +14,7 @@
     "@ctl/env": "workspace:*",
     "@ctl/env-process": "workspace:*",
     "@ctl/env-static": "workspace:*",
+    "@ctl/logger-file": "workspace:*",
     "@ctl/notify": "workspace:*",
     "@ctl/notify-console": "workspace:*",
     "@ctl/notify-file": "workspace:*",
@@ -21,6 +22,7 @@
     "@deepseek-ai/cordis": "catalog:",
     "@deepseek-ai/cordis-plugin-include": "catalog:",
     "@deepseek-ai/cordis-plugin-loader": "catalog:",
+    "@deepseek-ai/cordis-plugin-logger-console": "catalog:",
     "node-addon-require-builtin": "catalog:"
   },
   "devDependencies": {

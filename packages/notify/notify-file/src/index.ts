@@ -49,7 +49,7 @@ class FileNotify extends Service implements NotifyService {
   async send(msg: Notification): Promise<void> {
     const line = `[${msg.to}] ${msg.title}${msg.body ? ' | ' + msg.body : ''}\n`
     await appendFile(this.target, line, 'utf-8')
-    console.log(`📄 已写入 ${this.target}`)
+    this.ctx.logger.info('已写入 %s', this.target)
   }
 }
 

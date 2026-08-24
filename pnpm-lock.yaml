@@ -15,6 +15,9 @@ catalogs:
     '@deepseek-ai/cordis-plugin-loader':
       specifier: ^1.0.2
       version: 1.0.2
+    '@deepseek-ai/cordis-plugin-logger-console':
+      specifier: ^1.0.1
+      version: 1.0.1
     '@deepseek-ai/schemastery':
       specifier: ^3.18.1
       version: 3.18.1
@@ -53,6 +56,9 @@ importers:
       '@ctl/env-static':
         specifier: workspace:*
         version: link:../../packages/host/env-static
+      '@ctl/logger-file':
+        specifier: workspace:*
+        version: link:../../packages/logging/logger-file
       '@ctl/notify':
         specifier: workspace:*
         version: link:../../packages/notify/notify
@@ -74,6 +80,9 @@ importers:
       '@deepseek-ai/cordis-plugin-loader':
         specifier: 'catalog:'
         version: 1.0.2(@deepseek-ai/cordis@4.0.1)(node-addon-require-builtin@0.1.5)
+      '@deepseek-ai/cordis-plugin-logger-console':
+        specifier: 'catalog:'
+        version: 1.0.1(@deepseek-ai/cordis@4.0.1)
       node-addon-require-builtin:
         specifier: 'catalog:'
         version: 0.1.5
@@ -112,6 +121,19 @@ importers:
       '@deepseek-ai/cordis':
         specifier: 'catalog:'
         version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
+  packages/logging/logger-file:
+    dependencies:
+      '@deepseek-ai/schemastery':
+        specifier: 'catalog:'
+        version: 3.18.1
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
 
   packages/notify/notify:
     devDependencies:
@@ -172,6 +194,11 @@ packages:
     peerDependenciesMeta:
       node-addon-require-builtin:
         optional: true
+
+  '@deepseek-ai/cordis-plugin-logger-console@1.0.1':
+    resolution: {integrity: sha512-PcVPJZSaxrxz7SRnQx0FrzRbJvcrUgz3E56qL4xqwTcS0b3m0qoPwD2l8MUL80HRPrY2lSFESObrlkkZb0em5A==}
+    peerDependencies:
+      '@deepseek-ai/cordis': ^4.0.1
 
   '@deepseek-ai/cordis@4.0.1':
     resolution: {integrity: sha512-YBdskTU2Po1kru3GgcUWUbkTsPMA9LkSQDAY8rBkFJeajdgcQad3QPJZE26JyK99Xb6HaASvoXg2DSUTeN/0Nw==}
@@ -420,6 +447,10 @@ packages:
     resolution: {integrity: sha512-isaquiStlp7qdFpaffy+2ssJPUR/kLPRE5gqfeWbb0Ahph9H7O3BOFwThqkVaTrxfpnjrQauxlOEgvzD+snhUg==}
     engines: {node: '>=20'}
 
+  supports-color@9.4.0:
+    resolution: {integrity: sha512-VL+lNrEoIXww1coLPOmiEmK/0sGigko5COxI09KzHc2VJXJsQ37UaQ+8quuxjDeA7+KnLGTWRyOXSLLR2Wb4jw==}
+    engines: {node: '>=12'}
+
   tsx@4.23.12:
     resolution: {integrity: sha512-FDf4L4sYzKtzWYhU/Xm0AQFdTjdIxNo9ElTf2mxXM6k8YMHXzYUe4yODVaXP4V9uMFbVg8c0qyBccK2OOxb45Q==}
     engines: {node: '>=18.0.0'}
@@ -448,6 +479,13 @@ snapshots:
       '@deepseek-ai/cosmokit': 1.8.2
     optionalDependencies:
       node-addon-require-builtin: 0.1.5
+
+  '@deepseek-ai/cordis-plugin-logger-console@1.0.1(@deepseek-ai/cordis@4.0.1)':
+    dependencies:
+      '@deepseek-ai/cordis': 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+      '@deepseek-ai/cosmokit': 1.8.2
+      '@deepseek-ai/schemastery': 3.18.1
+      supports-color: 9.4.0
 
   '@deepseek-ai/cordis@4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)':
     dependencies:
@@ -634,6 +672,8 @@ snapshots:
       node-addon-require-builtin-win32-arm64-msvc: 0.1.5
       node-addon-require-builtin-win32-ia32-msvc: 0.1.5
       node-addon-require-builtin-win32-x64-msvc: 0.1.5
+
+  supports-color@9.4.0: {}
 
   tsx@4.23.12:
     dependencies:

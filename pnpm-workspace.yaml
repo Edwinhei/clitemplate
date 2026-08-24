@@ -21,6 +21,8 @@ catalog:
   # loader 的可选 peer：给它 Node 内部 ESM 解析器，
   # 否则裸包名会从 loader 自己的位置解析而找不到（静默降级，不报错）
   'node-addon-require-builtin': '^0.1.5'
+  # 官方 exporter：把结构化日志渲染到终端
+  '@deepseek-ai/cordis-plugin-logger-console': '^1.0.1'
 
   # —— 配置校验：任何实现 Standard Schema 的库都行，选它是因为它双向 ——
   '@deepseek-ai/schemastery': '^3.18.1'
