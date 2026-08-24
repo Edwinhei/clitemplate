@@ -1,0 +1,18 @@
+# patches/prod.yml —— 生产：通知落盘，不打控制台
+#
+# patch 能改什么（实测确认）：
+#   id        定位用，必填
+#   name      【断言】写了就必须和基线一致，不一致整条 patch 跳过并警告。改不了 name
+#   config    【整体替换】不是合并 —— {a:1,b:2} 打 {b:99} 的结果是 {b:99}
+#   disabled  开关，false 能把基线里关掉的重新打开
+#   insert    往 group 条目里追加（目标不是 group 会警告跳过）
+# 多条 patch 依次执行，后面的能命中前面 insert 进来的条目。
+# 匹配不到只警告并跳过，不会让启动失败。
+
+- id: notify
+  disabled: true                       # 关掉控制台提供方
+
+- id: notify-file
+  disabled: false                      # 打开文件提供方
+  config:
+    path: './notify.log'               # config 是整体替换，所以要写全

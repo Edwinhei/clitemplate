@@ -1,0 +1,13 @@
+# patches/test.yml —— 测试：环境值写死，不受 shell 和 .env 影响
+#
+# 这一份的价值在于【可重复】：同一条命令在任何人的机器上、
+# 任何 CI 环境里，输出都完全一样。
+
+- id: env
+  disabled: true                       # 关掉真实环境
+
+- id: env-static
+  disabled: false                      # 打开固定值
+  config:
+    values:
+      CTL_NOTIFY_TO: 'fixed-in-config'

@@ -10,7 +10,8 @@
     "ctl": "node apps/cli/src/bin.ts",
     "ctl:tsx": "node --import tsx apps/cli/src/bin.ts",
     "typecheck": "pnpm -r run typecheck",
-    "ctl:watch": "CTL_WATCH=1 node apps/cli/src/bin.ts"
+    "ctl:watch": "CTL_WATCH=1 node apps/cli/src/bin.ts",
+    "ctl:dump": "node apps/cli/src/bin.ts --dump-config"
   },
   "devDependencies": {
     "tsx": "catalog:",

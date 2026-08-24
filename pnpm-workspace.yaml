@@ -30,6 +30,10 @@ catalog:
   # —— 配置校验：任何实现 Standard Schema 的库都行，选它是因为它双向 ——
   '@deepseek-ai/schemastery': '^3.18.1'
 
+  # —— 配置读写：必须和 cordis-plugin-include 用同一大版本，否则 !!js 方言解析不了 ——
+  'js-yaml': '^4.1.0'
+  '@types/js-yaml': '^4.0.9'
+
   # —— 工具链 ——
   '@types/node': '^26.2.0'
   'typescript': '^5.9.0'

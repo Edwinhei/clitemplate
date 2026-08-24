@@ -21,9 +21,10 @@ import Hmr from '@deepseek-ai/cordis-plugin-hmr'
 import ConsoleExporter from '@deepseek-ai/cordis-plugin-logger-console'
 import FileExporter from '@ctl/logger-file'
 import { LaunchEnv, loadLaunchEnv } from '@ctl/env-launch'
+import type { PatchOptions } from '@deepseek-ai/cordis-plugin-include'
 import { assertEntriesActivated } from './audit.ts'
 
-export async function boot(configPath: string): Promise<Context> {
+export async function boot(configPath: string, patches: PatchOptions[] = []): Promise<Context> {
   const ctx = new Context()
 
   // baseUrl 决定 cordis.yml 里的相对路径从哪里算起
@@ -79,7 +80,10 @@ export async function boot(configPath: string): Promise<Context> {
   // Include：真正去读那一份清单，把里面每一项挂成自己的子插件
   const includeId = await ctx.loader.create({
     name: '@deepseek-ai/cordis-plugin-include',
-    config: { path: configPath },
+    // patches 由 bin.ts 按 CTL_PROFILE 读进来。
+    // include 内部用 applyEntryPatches 应用它们 —— 和 --dump-config 同一个函数，
+    // 所以「打印出来的」和「真正挂载的」不可能脱节。
+    config: { path: configPath, patches },
   })
 
   // ═══════════════════════════════════════════════════════════════
@@ -102,6 +106,17 @@ export async function boot(configPath: string): Promise<Context> {
       break
     }
   }
+
+  // ═══════════════════════════════════════════════════════════════
+  // 等整棵树真正结算完
+  // ═══════════════════════════════════════════════════════════════
+  // loader.create() 只保证「这条 entry 挂上了」，不保证【被它唤醒的下游】
+  // 也跑完了。实测：provider 已经 ACTIVE(2) 的那一刻，被唤醒的 consumer
+  // 还停在 LOADING(1)，11ms 后才好 —— 审计如果这时候跑，会误判成故障。
+  //
+  // EntryTree.await() 的语义是「等到这棵树没有任何进行中的导入或生命周期任务」，
+  // 而且 entries() 会递归进子树，所以 include 里的条目也覆盖到。
+  await ctx.loader.await()
 
   // 结算之后巡场：还没激活的条目，把它在等谁列出来
   await assertEntriesActivated(ctx, 'ctl')
