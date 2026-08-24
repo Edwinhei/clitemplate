@@ -28,10 +28,42 @@ export interface NotifyService {
   send(msg: Notification): Promise<void>
 }
 
+/**
+ * 调用方可以为自己申请的「待遇」。
+ *
+ * ⚠️ 这不是 Config —— 两者容易混，差别是根本性的：
+ *
+ *   Config      给【提供方】的。写在 cordis.yml 的 `config:` 里，
+ *               决定「这块招牌怎么开」（往哪个文件写、什么格式）。
+ *               一块招牌一份。
+ *
+ *   Intercept   给【调用方】的。写在 cordis.yml 的 `intercept:` 里，
+ *               决定「我这个顾客享受什么待遇」。
+ *               **同一块招牌，每个调用方一份，而且可以叠。**
+ *
+ * 用它而不是用 isolate，是因为这里要的不是「另一份东西」，
+ * 是「同一份东西的另一种待遇」—— 两个调用方共用同一个文件句柄，
+ * 隔离了就变成两个句柄、两份缓冲，纯浪费。
+ */
+export interface NotifyIntercept {
+  /** 投递失败时吞掉异常（默认 false —— 失败就抛，让审计能发现） */
+  silent?: boolean
+  /** 给这个调用方的所有消息加个前缀，便于在日志里分辨来源 */
+  prefix?: string
+}
+
 declare module '@deepseek-ai/cordis' {
   interface Context {
     /** 招牌名叫 notify —— 消费方只认这个名字，不认背后是谁 */
     notify: NotifyService
+  }
+
+  /**
+   * 把待遇声明进 Intercept —— 这样在 cordis.yml 里写
+   * `intercept: { notify: { … } }` 时才有类型检查。
+   */
+  interface Intercept {
+    notify: NotifyIntercept
   }
 
   /**

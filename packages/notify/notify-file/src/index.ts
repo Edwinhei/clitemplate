@@ -7,7 +7,7 @@
  */
 import { appendFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import type { Notification, NotifyService } from '@ctl/notify'
+import type { Notification, NotifyIntercept, NotifyService } from '@ctl/notify'
 import { type Context, Service } from '@deepseek-ai/cordis'
 import Schema from '@deepseek-ai/schemastery'
 
@@ -29,7 +29,7 @@ export const Config: Schema<Config> = Schema.object({
   path: Schema.string().required().description('通知落盘路径，相对 cordis.yml 所在目录'),
 })
 
-class FileNotify extends Service implements NotifyService {
+class FileNotify extends Service<NotifyIntercept> implements NotifyService {
   /**
    * 解析好的绝对路径，构造时算一次。
    *
@@ -47,12 +47,24 @@ class FileNotify extends Service implements NotifyService {
   }
 
   async send(msg: Notification): Promise<void> {
+    // 和 notify-console 一样：先读卡。默认值写在这里
+    const opts = this[Service.resolveConfig]({ silent: false })
+
     // 和 notify-console 一样的两句 —— 这是【提供方的契约义务】，
     // 不是可选项：漏掉的话，策略层和统计层对这个提供方就全失效了。
     if (this.ctx.bail('notify/before-send', msg)) return
 
-    const line = `[${msg.to}] ${msg.title}${msg.body ? ` | ${msg.body}` : ''}\n`
-    await appendFile(this.target, line, 'utf-8')
+    const title = opts.prefix ? `${opts.prefix} ${msg.title}` : msg.title
+    const line = `[${msg.to}] ${title}${msg.body ? ` | ${msg.body}` : ''}\n`
+    try {
+      await appendFile(this.target, line, 'utf-8')
+    } catch (error) {
+      // silent 的调用方：失败了不抛，只留一条日志。
+      // 不 silent 的：原样抛出去，让启动审计能发现
+      if (!opts.silent) throw error
+      this.ctx.logger('notify-file').warn('投递失败（调用方声明了 silent）：%s', String(error))
+      return
+    }
     // 显式指定名字：不写会用类名推导出的 'file-notify'，和包名对不上
     this.ctx.logger('notify-file').info('已写入 %s', this.target)
     this.ctx.emit('notify/sent', msg)
