@@ -1,0 +1,42 @@
+# 三层执行力的最后一层：把约束交给机器执行。
+#
+# 前两层——写在 docs/构建日志.md 里的约定、tsc 这类工具——
+# 都拦不住「明明能跑但违反了架构」的改动。只有这一层有牙齿。
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 不写死 pnpm 版本：让 corepack 去读 package.json 的 packageManager 字段，
+      # 保证 CI 和本地用的是同一个版本（这个字段是会被强制执行的，不是建议）
+      - run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22          # 裸 node 跑 .ts 需要 22.19+，见 engines
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: 类型 + 环境边界
+        run: pnpm typecheck
+
+      - name: 架构门禁
+        run: pnpm verify
+
+      - name: 冒烟——默认组合能起来吗
+        run: pnpm ctl
+
+      - name: 冒烟——各 profile 的最终组合算得出来吗
+        run: |
+          pnpm ctl --dump-config > /dev/null
+          CTL_PROFILE=prod pnpm ctl --dump-config > /dev/null
+          CTL_PROFILE=test pnpm ctl --dump-config > /dev/null
