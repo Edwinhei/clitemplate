@@ -7,3 +7,6 @@ lib/
 .env
 .env.*
 !.env.example
+
+# 多租户 demo 的落盘文件
+tenant-*.log

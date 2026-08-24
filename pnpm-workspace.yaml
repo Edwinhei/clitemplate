@@ -26,6 +26,8 @@ catalog:
   # loader 的可选 peer：给它 Node 内部 ESM 解析器，
   # 否则裸包名会从 loader 自己的位置解析而找不到（静默降级，不报错）
   'node-addon-require-builtin': '^0.1.5'
+  # 把一组条目打包成「区」，配合 isolate 做多租户
+  '@deepseek-ai/cordis-plugin-group': '^1.0.1'
   # 官方 exporter：把结构化日志渲染到终端
   '@deepseek-ai/cordis-plugin-logger-console': '^1.0.1'
   # 热重载：文件监视 + 局部重载。它 inject ['loader','timer']，所以 timer 也要装

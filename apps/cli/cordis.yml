@@ -53,3 +53,42 @@
   name: '@ctl/notify-quiet-policy'     #   摘掉它通知照发 —— 这就是 -policy 后缀的含义
   config:
     mute: []                           #   把收件人填进来就会被拦下，例如 ['ops']
+
+# ── 多租户：同名招牌，不同实体 ────────────────────────────
+# 两个区各挂一个【叫 notify 的招牌】。默认情况下这会撞车
+# （07 篇「规矩一」：招牌不能重名），isolate 让它们落进不同的分区。
+#
+# 注意消费方 task-heartbeat 里【没有任何一处】提到分区 ——
+# 它只写 inject: ['notify']，拿到哪一块由它所在的区决定。
+
+- id: tenant-a
+  name: '@deepseek-ai/cordis-plugin-group'
+  isolate:
+    notify: 'tenant-a'                 # ← 本区自成一个 notify 分区
+  config:
+    - id: a-notify
+      name: '@ctl/notify-file'
+      config:
+        path: './tenant-a.log'
+    - id: a-task
+      name: '@ctl/task-heartbeat'
+      config:
+        label: 'A 区'
+        intervalMs: 150
+        times: 2
+
+- id: tenant-b
+  name: '@deepseek-ai/cordis-plugin-group'
+  isolate:
+    notify: 'tenant-b'
+  config:
+    - id: b-notify
+      name: '@ctl/notify-file'
+      config:
+        path: './tenant-b.log'
+    - id: b-task
+      name: '@ctl/task-heartbeat'
+      config:
+        label: 'B 区'
+        intervalMs: 150
+        times: 2

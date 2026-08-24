@@ -12,6 +12,9 @@ catalogs:
     '@deepseek-ai/cordis':
       specifier: ^4.0.1
       version: 4.0.1
+    '@deepseek-ai/cordis-plugin-group':
+      specifier: ^1.0.1
+      version: 1.0.1
     '@deepseek-ai/cordis-plugin-hmr':
       specifier: ^1.0.16
       version: 1.0.16
@@ -98,12 +101,18 @@ importers:
       '@ctl/notify-quiet-policy':
         specifier: workspace:*
         version: link:../../packages/notify/notify-quiet-policy
+      '@ctl/task-heartbeat':
+        specifier: workspace:*
+        version: link:../../packages/task/task-heartbeat
       '@ctl/tool-notify':
         specifier: workspace:*
         version: link:../../packages/notify/tool-notify
       '@deepseek-ai/cordis':
         specifier: 'catalog:'
         version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+      '@deepseek-ai/cordis-plugin-group':
+        specifier: 'catalog:'
+        version: 1.0.1(@deepseek-ai/cordis-plugin-loader@1.0.2)(@deepseek-ai/cordis@4.0.1)
       '@deepseek-ai/cordis-plugin-hmr':
         specifier: 'catalog:'
         version: 1.0.16(@deepseek-ai/cordis-plugin-timer@1.1.3(@deepseek-ai/cordis@4.0.1))(@deepseek-ai/cordis@4.0.1)
@@ -242,6 +251,19 @@ importers:
         specifier: 'catalog:'
         version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
 
+  packages/task/task-heartbeat:
+    dependencies:
+      '@deepseek-ai/schemastery':
+        specifier: 'catalog:'
+        version: 3.18.1
+    devDependencies:
+      '@ctl/notify':
+        specifier: workspace:*
+        version: link:../../notify/notify
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
 packages:
 
   '@babel/code-frame@7.29.7':
@@ -304,6 +326,12 @@ packages:
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
+
+  '@deepseek-ai/cordis-plugin-group@1.0.1':
+    resolution: {integrity: sha512-E1NThkFB3jn3TCqa6Oc++1zQHqLejF3W2wDwv2BlL3UEmgtBXL1K1j1koc+j676RuiOXtJkUJlPcOntRGKLWBQ==}
+    peerDependencies:
+      '@deepseek-ai/cordis': ^4.0.1
+      '@deepseek-ai/cordis-plugin-loader': ^1.0.2
 
   '@deepseek-ai/cordis-plugin-hmr@1.0.16':
     resolution: {integrity: sha512-S7VHfylDg1+Y5O6fdYYZu0KFRAj/snHywcFPnX3KmQYa/qv2Q8IXi4zAt9ABq0BJYqhNoqRlbpGMfIjabgXjKA==}
@@ -665,6 +693,11 @@ snapshots:
 
   '@biomejs/cli-win32-x64@2.5.10':
     optional: true
+
+  '@deepseek-ai/cordis-plugin-group@1.0.1(@deepseek-ai/cordis-plugin-loader@1.0.2)(@deepseek-ai/cordis@4.0.1)':
+    dependencies:
+      '@deepseek-ai/cordis': 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+      '@deepseek-ai/cordis-plugin-loader': 1.0.2(@deepseek-ai/cordis@4.0.1)(node-addon-require-builtin@0.1.5)
 
   '@deepseek-ai/cordis-plugin-hmr@1.0.16(@deepseek-ai/cordis-plugin-timer@1.1.3(@deepseek-ai/cordis@4.0.1))(@deepseek-ai/cordis@4.0.1)':
     dependencies:

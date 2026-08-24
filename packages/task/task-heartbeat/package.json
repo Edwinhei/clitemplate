@@ -1,0 +1,25 @@
+{
+  "name": "@ctl/task-heartbeat",
+  "description": "定时任务：按间隔发通知，跑满次数自己收摊。持有真实句柄，用来演示 effect 的复原单",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "catalog:"
+  },
+  "peerDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  }
+}
