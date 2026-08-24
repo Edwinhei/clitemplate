@@ -21,23 +21,29 @@
 #
 # 分工：
 #   提交前  格式（确定性，自动修，修不好才拦）
-#   CI      lint + typecheck + 架构门禁 + 冒烟（会误伤的、需要思考的，全在这）
+#   CI      lint + typecheck + 架构门禁 + 测试 + 冒烟
 #
 # 装上方式：pnpm install 会执行 prepare 脚本把 core.hooksPath 指到本目录，
 # 不需要 husky；Biome 自带 --staged，也不需要 lint-staged。
 
 set -e
 
-STAGED=$(git diff --name-only --cached --diff-filter=ACMR)
-[ -z "$STAGED" ] && exit 0
+# ⚠️ 必须用 -z（NUL 分隔）。默认输出会把非 ASCII 文件名转义成
+#    "docs/\346\236\204..." 这种带引号的形式，中文文件名必然踩到 ——
+#    后面的 [ -f "$f" ] 会判断失败，配合 set -e 直接杀掉整个 hook。
+if [ -z "$(git diff --name-only --cached -z --diff-filter=ACMR)" ]; then
+  exit 0
+fi
 
 # ── ① 自动修：格式 + import 顺序。--linter-enabled=false 关掉所有 lint 规则 ──
 pnpm exec biome check --staged --write --linter-enabled=false --no-errors-on-unmatched >/dev/null 2>&1 || true
 
 # ── ② 把改过的文件重新暂存，否则修复进不了这次提交 ──
-echo "$STAGED" | while read -r f; do
-  [ -f "$f" ] && git add "$f"
-done
+#    `|| true` 不能少：文件可能已被删除，那时 [ -f ] 为假，
+#    在 set -e 下会终止整个循环。
+git diff --name-only --cached -z --diff-filter=ACMR | while IFS= read -r -d '' f; do
+  if [ -f "$f" ]; then git add -- "$f"; fi
+done || true
 
 # ── ③ 复查：还有格式问题说明自动修不了（多半是语法错误），这时候拦 ──
 if ! pnpm exec biome check --staged --linter-enabled=false --no-errors-on-unmatched; then
