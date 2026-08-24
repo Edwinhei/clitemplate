@@ -34,6 +34,30 @@ import { listPackages, type Gate, type Violation } from './lib/workspace.ts'
 /** workspace 内部引用走 workspace: 协议，不进 catalog */
 const INTERNAL_PREFIX = '@ctl/'
 
+/**
+ * 必须全场唯一的包 —— **不许出现在具名目录里**。
+ *
+ * 具名目录是给「普通库版本分叉」准备的（web 用 react 19、marketing 用 18），
+ * 不是给框架本体准备的。给 cordis 开第二个目录，等于故意制造两份实体。
+ *
+ * 实测两份 cordis 共存（4.0.1 vs 4.0.1-rc.1）的后果：
+ *   ❌ 两份 Service / Context 类不是同一个
+ *   ❌ 服务实例在宿主眼里不是 Service（instanceof false）
+ *   ❌ 用另一份 cordis 建的 ctx 拿不到已挂的服务（undefined）
+ *   ✅ 但基本调用居然还能走通  ← 这才是最危险的地方
+ *
+ * **它不会当场崩。** cordis 用 Symbol.for 注册服务、Service 还自定义了
+ * hasInstance，所以大部分路径侥幸能跑。只要有一处代码依赖真正的类身份，
+ * 就会拿到 false 或 undefined —— 而且没有任何报错。
+ *
+ * 真要升级：改默认目录那一行，整个 workspace 一起升。
+ * 某个包升不动，正确做法是先修那个包，而不是给它开个旧版本目录。
+ */
+const SINGLETON = [
+  '@deepseek-ai/cordis',
+  '@deepseek-ai/cordis-plugin-loader',
+]
+
 interface WorkspaceYaml {
   catalog?: Record<string, string>
   catalogs?: Record<string, Record<string, string>>
@@ -57,6 +81,20 @@ export const gate: Gate = {
   run(root) {
     const v: Violation[] = []
     const catalogs = readCatalogs(root)
+
+    // ── 先查目录本身：必须唯一的包不许出现在具名目录里 ──
+    for (const [which, entries] of catalogs) {
+      if (which === 'default') continue
+      for (const name of Object.keys(entries)) {
+        if (SINGLETON.includes(name)) {
+          v.push({
+            file: 'pnpm-workspace.yaml',
+            message: `具名目录 "${which}" 里放了 ${name} —— 这个包必须全场唯一`,
+            fix: '两份实体会让 instanceof 静默失效（而且不会当场崩）。要升级就改默认目录那一行，整个 workspace 一起升',
+          })
+        }
+      }
+    }
 
     for (const pkg of listPackages(root)) {
       const m = pkg.manifest

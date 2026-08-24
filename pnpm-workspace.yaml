@@ -57,8 +57,21 @@ allowBuilds:
 # ═══════════════════════════════════════════════════════════════════════
 # 具名目录（按需启用）
 #
-# 同一个库要在仓库里并存多个版本时用它 —— 版本号依然只写在这个文件里，
-# 只是分了组。用法：
+# ⚠️ 先分清两个 catalog —— 它们分属两套语法，很容易混：
+#
+#   pnpm-workspace.yaml 里的是【配置字段名】
+#     catalog:      装「默认目录」的内容
+#     catalogs:     装「一堆具名目录」，所以是复数
+#
+#   package.json 里的是【依赖协议】，和 workspace: / npm: / file: 同类
+#     "catalog:"        默认目录
+#     "catalog:cli"     名叫 cli 的那个目录        ← 协议名永远单数
+#
+#   写成 "catalogs:cli" 会报 ERR_PNPM_SPEC_NOT_SUPPORTED_BY_ANY_RESOLVER。
+#   复数只出现在「装东西的容器」那一侧。
+#
+# 用法：同一个库要在仓库里并存多个版本时用它。版本号依然只写在本文件里，
+# 只是分了组：
 #
 #   catalogs:
 #     legacy:
@@ -67,6 +80,12 @@ allowBuilds:
 #   apps/web/package.json        "react": "catalog:"         → 默认目录
 #   apps/marketing/package.json  "react": "catalog:legacy"   → 具名目录
 #
-# 门禁 verify-catalog 认这两种写法，并且会检查你引用的目录真的存在、
-# 里面真的有这个包 —— 拼错目录名不用等到 install 才发现。
+# 🚫 但【框架本体不许开第二个目录】。
+#   给 @deepseek-ai/cordis 开具名目录 = 故意制造两份实体。
+#   实测两份共存的后果：instanceof 失效、跨副本的 ctx 拿不到服务，
+#   而基本调用居然还能跑 —— 不会当场崩，所以最危险。
+#   门禁 verify-catalog 会拦这件事。
+#
+# 门禁认这两种写法，并且会检查引用的目录真的存在、里面真的有这个包 ——
+# 拼错目录名不用等到 install 才发现。
 # ═══════════════════════════════════════════════════════════════════════
