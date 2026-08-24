@@ -1,0 +1,22 @@
+{
+  "name": "@ctl/tool-prompt",
+  "description": "prompt 消费方：组装并打印最终 prompt，附各 section 的来源清单",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@ctl/prompt": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@ctl/prompt": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  }
+}

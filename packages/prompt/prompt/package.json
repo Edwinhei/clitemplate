@@ -1,0 +1,20 @@
+{
+  "name": "@ctl/prompt",
+  "description": "system prompt 的服务契约：一个按 order 拼接、同名即替换的 section 注册表",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "catalog:"
+  }
+}

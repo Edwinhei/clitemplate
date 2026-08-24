@@ -107,12 +107,30 @@ importers:
       '@ctl/notify-quiet-policy':
         specifier: workspace:*
         version: link:../../packages/notify/notify-quiet-policy
+      '@ctl/prompt':
+        specifier: workspace:*
+        version: link:../../packages/prompt/prompt
+      '@ctl/prompt-persona-en':
+        specifier: workspace:*
+        version: link:../../packages/prompt/prompt-persona-en
+      '@ctl/prompt-persona-zh':
+        specifier: workspace:*
+        version: link:../../packages/prompt/prompt-persona-zh
+      '@ctl/prompt-registry':
+        specifier: workspace:*
+        version: link:../../packages/prompt/prompt-registry
+      '@ctl/prompt-runtime-facts':
+        specifier: workspace:*
+        version: link:../../packages/prompt/prompt-runtime-facts
       '@ctl/task-heartbeat':
         specifier: workspace:*
         version: link:../../packages/task/task-heartbeat
       '@ctl/tool-notify':
         specifier: workspace:*
         version: link:../../packages/notify/tool-notify
+      '@ctl/tool-prompt':
+        specifier: workspace:*
+        version: link:../../packages/prompt/tool-prompt
       '@deepseek-ai/cordis':
         specifier: 'catalog:'
         version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
@@ -253,6 +271,60 @@ importers:
       '@ctl/notify':
         specifier: workspace:*
         version: link:../notify
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
+  packages/prompt/prompt:
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
+  packages/prompt/prompt-persona-en:
+    devDependencies:
+      '@ctl/prompt':
+        specifier: workspace:*
+        version: link:../prompt
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
+  packages/prompt/prompt-persona-zh:
+    devDependencies:
+      '@ctl/prompt':
+        specifier: workspace:*
+        version: link:../prompt
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
+  packages/prompt/prompt-registry:
+    devDependencies:
+      '@ctl/prompt':
+        specifier: workspace:*
+        version: link:../prompt
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
+  packages/prompt/prompt-runtime-facts:
+    devDependencies:
+      '@ctl/env':
+        specifier: workspace:*
+        version: link:../../host/env
+      '@ctl/prompt':
+        specifier: workspace:*
+        version: link:../prompt
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
+  packages/prompt/tool-prompt:
+    devDependencies:
+      '@ctl/prompt':
+        specifier: workspace:*
+        version: link:../prompt
       '@deepseek-ai/cordis':
         specifier: 'catalog:'
         version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)

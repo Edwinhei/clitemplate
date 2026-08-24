@@ -1,0 +1,24 @@
+{
+  "name": "@ctl/prompt-runtime-facts",
+  "description": "prompt 贡献方：把运行时事实拼进 prompt。text 用函数，每次组装现算",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@ctl/env": "workspace:*",
+    "@ctl/prompt": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@ctl/env": "workspace:*",
+    "@ctl/prompt": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  }
+}

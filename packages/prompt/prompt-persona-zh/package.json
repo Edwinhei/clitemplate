@@ -1,0 +1,22 @@
+{
+  "name": "@ctl/prompt-persona-zh",
+  "description": "prompt 贡献方：zh 人格。和另一种语言占【同一个槽位】，同名即替换",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@ctl/prompt": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@ctl/prompt": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  }
+}
