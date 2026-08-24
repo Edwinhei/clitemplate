@@ -80,12 +80,18 @@ importers:
       '@ctl/notify':
         specifier: workspace:*
         version: link:../../packages/notify/notify
+      '@ctl/notify-audit':
+        specifier: workspace:*
+        version: link:../../packages/notify/notify-audit
       '@ctl/notify-console':
         specifier: workspace:*
         version: link:../../packages/notify/notify-console
       '@ctl/notify-file':
         specifier: workspace:*
         version: link:../../packages/notify/notify-file
+      '@ctl/notify-quiet-policy':
+        specifier: workspace:*
+        version: link:../../packages/notify/notify-quiet-policy
       '@ctl/tool-notify':
         specifier: workspace:*
         version: link:../../packages/notify/tool-notify
@@ -171,6 +177,15 @@ importers:
         specifier: 'catalog:'
         version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
 
+  packages/notify/notify-audit:
+    devDependencies:
+      '@ctl/notify':
+        specifier: workspace:*
+        version: link:../notify
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
   packages/notify/notify-console:
     devDependencies:
       '@ctl/notify':
@@ -195,6 +210,19 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.2.0
+
+  packages/notify/notify-quiet-policy:
+    dependencies:
+      '@deepseek-ai/schemastery':
+        specifier: 'catalog:'
+        version: 3.18.1
+    devDependencies:
+      '@ctl/notify':
+        specifier: workspace:*
+        version: link:../notify
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
 
   packages/notify/tool-notify:
     devDependencies:

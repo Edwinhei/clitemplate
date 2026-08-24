@@ -1,0 +1,22 @@
+{
+  "name": "@ctl/notify-audit",
+  "description": "notify 观察方：监听 notify/sent 记账。提供方不知道它存在",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  },
+  "devDependencies": {
+    "@ctl/notify": "workspace:*",
+    "@deepseek-ai/cordis": "catalog:"
+  }
+}

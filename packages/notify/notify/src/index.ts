@@ -24,7 +24,34 @@ declare module '@deepseek-ai/cordis' {
     /** 招牌名叫 notify —— 消费方只认这个名字，不认背后是谁 */
     notify: NotifyService
   }
-}
 
-// 契约包本身不是插件，不需要 apply。
-// 消费方用 `import type {} from '@ctl/notify'` 引入这份声明合并。
+  /**
+   * 契约的第二半：事件。
+   *
+   * 服务解决的是「我要用一个能力」，事件解决的是
+   * 「一件事发生了，可能有人关心，但我不该知道是谁」。
+   *
+   * 提供方发通知这件事，可能有人想统计、想审计、想在安静时段拦下来 ——
+   * 而 notify-console 不该认识这些插件里的任何一个。
+   *
+   * ⚠️ 这是【提供方的义务】：实现 NotifyService 的包，
+   *    必须在实际投递前后触发这两个事件，否则策略层和统计层就失效了。
+   */
+  interface Events {
+    /**
+     * 投递之前问一声，任何一个监听器返回 true 就取消本次投递。
+     *
+     * 用 bail 派发：挨个问，谁先给出非空结果就用谁的，后面的不再问。
+     * @param msg — 即将投递的通知
+     * @returns true = 拦下；返回 undefined / 不返回 = 放行
+     */
+    'notify/before-send'(msg: Notification): boolean | void
+    /**
+     * 投递完成后广播一声。
+     *
+     * 用 emit 派发：喊完就走，不等任何人，也不关心有没有人听。
+     * @param msg — 已经投递出去的通知
+     */
+    'notify/sent'(msg: Notification): void
+  }
+}

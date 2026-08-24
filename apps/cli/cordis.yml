@@ -45,3 +45,11 @@
 
 - id: tool-notify
   name: '@ctl/tool-notify'             # 消费方：inject ['notify', 'env']
+
+- id: notify-audit
+  name: '@ctl/notify-audit'            # 观察方：听 notify/sent 记账。不 inject 任何东西
+
+- id: notify-quiet-policy              # 策略方：听 notify/before-send，一票否决
+  name: '@ctl/notify-quiet-policy'     #   摘掉它通知照发 —— 这就是 -policy 后缀的含义
+  config:
+    mute: []                           #   把收件人填进来就会被拦下，例如 ['ops']
