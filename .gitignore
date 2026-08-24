@@ -3,3 +3,7 @@ dist/
 lib/
 *.log
 .DS_Store
+# 本地环境值：只提交 .env.example
+.env
+.env.*
+!.env.example

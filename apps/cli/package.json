@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@ctl/env": "workspace:*",
-    "@ctl/env-process": "workspace:*",
+    "@ctl/env-launch": "workspace:*",
     "@ctl/env-static": "workspace:*",
     "@ctl/logger-file": "workspace:*",
     "@ctl/notify": "workspace:*",

@@ -16,7 +16,7 @@
 
 # ── 宿主事实 ──────────────────────────────────────────────
 - id: env
-  name: '@ctl/env-process'             # 读 process.env 的快照
+  name: '@ctl/env-launch'              # shell 环境变量 + apps/cli/.env，分两层
   # 换成 @ctl/env-static 就完全不碰 process，用于测试 / 浏览器 / 云端：
   # name: '@ctl/env-static'
   # config:

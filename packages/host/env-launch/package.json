@@ -1,6 +1,6 @@
 {
-  "name": "@ctl/env-process",
-  "description": "env 提供方：启动时对 process.env 做一次快照。需要 Node 环境",
+  "name": "@ctl/env-launch",
+  "description": "启动环境：把 shell 继承的环境变量和 app 自己的 .env 组装成一份分层快照。既是纯函数（宿主引导期用），也是 env 服务的提供方（配置树用）",
   "version": "0.0.0",
   "private": true,
   "type": "module",

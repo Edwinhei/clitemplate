@@ -50,9 +50,9 @@ importers:
       '@ctl/env':
         specifier: workspace:*
         version: link:../../packages/host/env
-      '@ctl/env-process':
+      '@ctl/env-launch':
         specifier: workspace:*
-        version: link:../../packages/host/env-process
+        version: link:../../packages/host/env-launch
       '@ctl/env-static':
         specifier: workspace:*
         version: link:../../packages/host/env-static
@@ -97,7 +97,7 @@ importers:
         specifier: 'catalog:'
         version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
 
-  packages/host/env-process:
+  packages/host/env-launch:
     devDependencies:
       '@ctl/env':
         specifier: workspace:*

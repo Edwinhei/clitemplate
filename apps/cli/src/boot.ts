@@ -14,6 +14,7 @@ import { Context } from '@deepseek-ai/cordis'
 import Loader from '@deepseek-ai/cordis-plugin-loader'
 import ConsoleExporter from '@deepseek-ai/cordis-plugin-logger-console'
 import FileExporter from '@ctl/logger-file'
+import { LaunchEnv, loadLaunchEnv } from '@ctl/env-launch'
 import { assertEntriesActivated } from './audit.ts'
 
 export async function boot(configPath: string): Promise<Context> {
@@ -40,11 +41,23 @@ export async function boot(configPath: string): Promise<Context> {
   // 放进配置树 = 放弃它们最该派上用场的那一段。
   await ctx.plugin(ConsoleExporter, { showTime: 'hh:mm:ss' })
 
+  // ═══════════════════════════════════════════════════════════════
+  // 引导期的环境事实
+  // ═══════════════════════════════════════════════════════════════
+  //
+  // 配置树此刻还没加载，ctx.env 那块招牌根本不存在
+  // （实测：这一行位置上 ctx.env === undefined）。
+  //
+  // 但我们不因此就裸读 process.env —— 而是调用和 @ctl/env-launch 插件
+  // 【同一份】组装逻辑，拿到同一份分层快照。这样宿主和业务插件看到的
+  // 环境永远一致，也不必把 env 提供方写死在宿主里。
+  const env = new LaunchEnv(loadLaunchEnv({ baseUrl: ctx.baseUrl }))
+
   // 可选的文件 sink。sink 是可叠加的：每条消息会送到所有已注册的 sink。
   //
-  // 这里直接读 process.env —— 宿主是唯一被允许这么做的地方，它就是
-  // 「事实的源头」。插件要拿环境值得走 ctx.env（见 @ctl/env）。
-  const logFile = process.env.CTL_LOG_FILE
+  // 只接受 shell / CI 显式传进来的值：运维开关不该被 app 自己的 .env 悄悄打开。
+  // 这就是 getFrom 的用处 —— 省略 'app-env' 是拒绝，不是降级。
+  const logFile = env.getFrom('CTL_LOG_FILE', ['process'])?.value
   if (logFile) await ctx.plugin(FileExporter, { path: logFile, levels: {} })
 
   // Include：真正去读那一份清单，把里面每一项挂成自己的子插件
