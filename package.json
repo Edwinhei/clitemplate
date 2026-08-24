@@ -9,7 +9,8 @@
   "scripts": {
     "ctl": "node apps/cli/src/bin.ts",
     "ctl:tsx": "node --import tsx apps/cli/src/bin.ts",
-    "typecheck": "pnpm -r run typecheck"
+    "typecheck": "pnpm -r run typecheck",
+    "ctl:watch": "CTL_WATCH=1 node apps/cli/src/bin.ts"
   },
   "devDependencies": {
     "tsx": "catalog:",

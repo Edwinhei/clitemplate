@@ -49,7 +49,8 @@ class FileNotify extends Service implements NotifyService {
   async send(msg: Notification): Promise<void> {
     const line = `[${msg.to}] ${msg.title}${msg.body ? ' | ' + msg.body : ''}\n`
     await appendFile(this.target, line, 'utf-8')
-    this.ctx.logger.info('已写入 %s', this.target)
+    // 显式指定名字：不写会用类名推导出的 'file-notify'，和包名对不上
+    this.ctx.logger('notify-file').info('已写入 %s', this.target)
   }
 }
 

@@ -20,9 +20,11 @@
     "@ctl/notify-file": "workspace:*",
     "@ctl/tool-notify": "workspace:*",
     "@deepseek-ai/cordis": "catalog:",
+    "@deepseek-ai/cordis-plugin-hmr": "catalog:",
     "@deepseek-ai/cordis-plugin-include": "catalog:",
     "@deepseek-ai/cordis-plugin-loader": "catalog:",
     "@deepseek-ai/cordis-plugin-logger-console": "catalog:",
+    "@deepseek-ai/cordis-plugin-timer": "catalog:",
     "node-addon-require-builtin": "catalog:"
   },
   "devDependencies": {

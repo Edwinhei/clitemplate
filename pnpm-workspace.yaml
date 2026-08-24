@@ -23,6 +23,9 @@ catalog:
   'node-addon-require-builtin': '^0.1.5'
   # 官方 exporter：把结构化日志渲染到终端
   '@deepseek-ai/cordis-plugin-logger-console': '^1.0.1'
+  # 热重载：文件监视 + 局部重载。它 inject ['loader','timer']，所以 timer 也要装
+  '@deepseek-ai/cordis-plugin-hmr': '^1.0.16'
+  '@deepseek-ai/cordis-plugin-timer': '^1.0.1'
 
   # —— 配置校验：任何实现 Standard Schema 的库都行，选它是因为它双向 ——
   '@deepseek-ai/schemastery': '^3.18.1'
