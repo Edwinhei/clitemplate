@@ -8,12 +8,26 @@
 import { appendFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { Service, type Context } from '@deepseek-ai/cordis'
+import Schema from '@deepseek-ai/schemastery'
 import type { Notification, NotifyService } from '@ctl/notify'
 
 export interface Config {
   /** 落盘路径。相对路径以 cordis.yml 所在目录为基准 */
   path: string
 }
+
+/**
+ * ★ 配置的形状声明。
+ *
+ * Cordis 在调用 apply 之前会拿它校验 cordis.yml 里的 config，
+ * 不合法就在【启动时】报出「哪个字段、期望什么、实际是什么」——
+ * 而不是等运行到 new URL(undefined) 才崩一句莫名其妙的 Invalid URL。
+ *
+ * 名字必须叫 Config（Cordis 认这个名字），和上面的 interface 同名做声明合并。
+ */
+export const Config: Schema<Config> = Schema.object({
+  path: Schema.string().required().description('通知落盘路径，相对 cordis.yml 所在目录'),
+})
 
 class FileNotify extends Service implements NotifyService {
   /**

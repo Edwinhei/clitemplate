@@ -11,6 +11,9 @@
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "catalog:"
+  },
   "peerDependencies": {
     "@ctl/env": "workspace:*",
     "@deepseek-ai/cordis": "catalog:"

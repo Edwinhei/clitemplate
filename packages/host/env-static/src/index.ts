@@ -5,12 +5,18 @@
  * 它和 env-process 挂同一块招牌，消费方分辨不出差别 —— 这正是重点。
  */
 import { Service, type Context } from '@deepseek-ai/cordis'
+import Schema from '@deepseek-ai/schemastery'
 import type { EnvService, EnvValue } from '@ctl/env'
 
 export interface Config {
-  /** 直接写死的环境值。步骤 6 会给它加上 schema 校验 */
-  values?: Record<string, string>
+  /** 直接写死的环境值 */
+  values: Record<string, string>
 }
+
+/** ★ 配置校验：values 必须是「字符串 → 字符串」的字典，缺省是空字典 */
+export const Config: Schema<Config> = Schema.object({
+  values: Schema.dict(Schema.string()).default({}).description('写死的环境值'),
+})
 
 class StaticEnv extends Service implements EnvService {
   private data: Record<string, EnvValue>
@@ -18,7 +24,7 @@ class StaticEnv extends Service implements EnvService {
   constructor(ctx: Context, config: Config) {
     super(ctx, 'env')
     this.data = Object.create(null) as Record<string, EnvValue>
-    for (const [name, value] of Object.entries(config.values ?? {})) {
+    for (const [name, value] of Object.entries(config.values)) {
       this.data[name] = { value, source: 'static' }
     }
   }
