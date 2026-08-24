@@ -1,6 +1,6 @@
 {
-  "name": "@ctl/tool-notify",
-  "description": "notify 消费方：启动时发一条通知，示范消费方只认招牌、不认实现",
+  "name": "@ctl/env",
+  "description": "宿主环境的服务契约：一次不可变快照，每个值记得自己来自哪一层",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -12,13 +12,9 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@ctl/env": "workspace:*",
-    "@ctl/notify": "workspace:*",
     "@deepseek-ai/cordis": "catalog:"
   },
   "devDependencies": {
-    "@ctl/env": "workspace:*",
-    "@ctl/notify": "workspace:*",
     "@deepseek-ai/cordis": "catalog:"
   }
 }

@@ -41,6 +41,15 @@ importers:
 
   apps/cli:
     dependencies:
+      '@ctl/env':
+        specifier: workspace:*
+        version: link:../../packages/host/env
+      '@ctl/env-process':
+        specifier: workspace:*
+        version: link:../../packages/host/env-process
+      '@ctl/env-static':
+        specifier: workspace:*
+        version: link:../../packages/host/env-static
       '@ctl/notify':
         specifier: workspace:*
         version: link:../../packages/notify/notify
@@ -69,6 +78,33 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.2.0
+
+  packages/host/env:
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+
+  packages/host/env-process:
+    devDependencies:
+      '@ctl/env':
+        specifier: workspace:*
+        version: link:../env
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.2.0
+
+  packages/host/env-static:
+    devDependencies:
+      '@ctl/env':
+        specifier: workspace:*
+        version: link:../env
+      '@deepseek-ai/cordis':
+        specifier: 'catalog:'
+        version: 4.0.1(@deepseek-ai/cordis-plugin-include@1.0.6)(@deepseek-ai/cordis-plugin-loader@1.0.2)
 
   packages/notify/notify:
     devDependencies:
@@ -99,6 +135,9 @@ importers:
 
   packages/notify/tool-notify:
     devDependencies:
+      '@ctl/env':
+        specifier: workspace:*
+        version: link:../../host/env
       '@ctl/notify':
         specifier: workspace:*
         version: link:../notify

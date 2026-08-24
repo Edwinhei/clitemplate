@@ -1,6 +1,6 @@
 {
-  "name": "@ctl/tool-notify",
-  "description": "notify 消费方：启动时发一条通知，示范消费方只认招牌、不认实现",
+  "name": "@ctl/env-process",
+  "description": "env 提供方：启动时对 process.env 做一次快照。需要 Node 环境",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,12 +13,11 @@
   },
   "peerDependencies": {
     "@ctl/env": "workspace:*",
-    "@ctl/notify": "workspace:*",
     "@deepseek-ai/cordis": "catalog:"
   },
   "devDependencies": {
     "@ctl/env": "workspace:*",
-    "@ctl/notify": "workspace:*",
-    "@deepseek-ai/cordis": "catalog:"
+    "@deepseek-ai/cordis": "catalog:",
+    "@types/node": "catalog:"
   }
 }

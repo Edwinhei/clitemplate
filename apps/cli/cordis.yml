@@ -1,20 +1,26 @@
 # apps/cli/cordis.yml
-# 这个 app 的【默认组合】。
+#
+# 这个 app 的【默认组合】—— 全仓库唯一知道「哪块招牌由谁来挂」的地方。
 # 部署时的实际组合，未来由 patch 层覆盖（步骤 9）。
 
-# 这个 app 的默认组合。
-
 - id: hello
-  name: './src/plugins/hello.ts'      # 本地插件：相对路径
+  name: './src/plugins/hello.ts'       # 本地插件：相对路径，以本文件所在目录为基准
 
-# - id: notify                           # ← 提供方
-#   name: '@ctl/notify-file'             #   换实现只改这一行
-#   config:
-#     path: './notify.log'               #   相对 cordis.yml 所在目录
+# ── 宿主事实 ──────────────────────────────────────────────
+- id: env
+  name: '@ctl/env-process'             # 读 process.env 的快照
+  # 换成 @ctl/env-static 就完全不碰 process，用于测试 / 浏览器 / 云端：
+  # name: '@ctl/env-static'
+  # config:
+  #   values:
+  #     CTL_NOTIFY_TO: 'bob'
 
+# ── notify 能力 ───────────────────────────────────────────
 - id: notify
-  name: '@ctl/notify-console'
+  name: '@ctl/notify-console'          # 提供方：换实现只改这一行
+  # name: '@ctl/notify-file'           # 另一个提供方（写文件）
+  # config:
+  #   path: './notify.log'             #   相对本文件所在目录
 
-- id: tool-notify                      # ← 消费方
-  name: '@ctl/tool-notify'
-
+- id: tool-notify
+  name: '@ctl/tool-notify'             # 消费方：inject ['notify', 'env']

@@ -1,6 +1,6 @@
 {
-  "name": "@ctl/tool-notify",
-  "description": "notify 消费方：启动时发一条通知，示范消费方只认招牌、不认实现",
+  "name": "@ctl/env-static",
+  "description": "env 提供方：值直接来自 cordis.yml 配置。不碰 process，测试与浏览器可用",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,12 +13,10 @@
   },
   "peerDependencies": {
     "@ctl/env": "workspace:*",
-    "@ctl/notify": "workspace:*",
     "@deepseek-ai/cordis": "catalog:"
   },
   "devDependencies": {
     "@ctl/env": "workspace:*",
-    "@ctl/notify": "workspace:*",
     "@deepseek-ai/cordis": "catalog:"
   }
 }

@@ -11,6 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ctl/env": "workspace:*",
+    "@ctl/env-process": "workspace:*",
+    "@ctl/env-static": "workspace:*",
     "@ctl/notify": "workspace:*",
     "@ctl/notify-console": "workspace:*",
     "@ctl/notify-file": "workspace:*",
