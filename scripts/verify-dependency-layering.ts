@@ -9,7 +9,7 @@
  * peer 不会被安装，只写 peer 的话你在自己包里跑 tsc 会找不到类型。
  */
 import { join } from 'node:path'
-import { listPackages, type Gate, type Violation } from './lib/workspace.ts'
+import { type Gate, listPackages, type Violation } from './lib/workspace.ts'
 
 /** 必须全场唯一的包 —— 它们做 instanceof 身份判断 */
 const SINGLETON = ['@deepseek-ai/cordis']

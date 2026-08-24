@@ -12,7 +12,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { relative } from 'node:path'
-import { listPackages, listSources, type Gate, type Violation } from './lib/workspace.ts'
+import { type Gate, listPackages, listSources, type Violation } from './lib/workspace.ts'
 
 export const gate: Gate = {
   name: 'effect-cleanup',
@@ -32,9 +32,15 @@ export const gate: Gate = {
             continue
           }
           if (inApply) {
-            if (/^}/.test(line)) { inApply = false; continue }
+            if (/^}/.test(line)) {
+              inApply = false
+              continue
+            }
             // apply 函数体顶层（两个空格缩进）的 return 一个函数
-            if (/^ {2}return\s*(\(\s*\)|\w+)\s*=>/.test(line) || /^ {2}return\s+function\b/.test(line)) {
+            if (
+              /^ {2}return\s*(\(\s*\)|\w+)\s*=>/.test(line) ||
+              /^ {2}return\s+function\b/.test(line)
+            ) {
               v.push({
                 file: `${relative(root, abs)}:${String(i + 1)}`,
                 message: `apply（第 ${String(applyLine)} 行）返回了一个函数`,

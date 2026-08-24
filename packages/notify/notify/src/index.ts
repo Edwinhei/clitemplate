@@ -4,7 +4,16 @@
  * 这个包【只有类型和声明】，零实现。
  * 提供方和消费方都只依赖它，彼此互不认识 —— 这是可替换性的全部基础。
  */
-import type { Context } from '@deepseek-ai/cordis'
+
+// ⚠️ 这一行不能删。
+// 底下的 `declare module '@deepseek-ai/cordis'` 是【模块增强】，
+// TypeScript 要求本文件先引用过那个模块，否则报
+//   TS2664: Invalid module name in augmentation, module ... cannot be found
+// 空的 `{}` 就够了 —— 我们只是要建立引用关系，不需要任何具体的名字。
+//
+// lint 工具会把它当成「未使用的导入」（Biome / ESLint / oxlint 三家都会）。
+// 别信 —— 只有 tsc 说了算。
+import type {} from '@deepseek-ai/cordis'
 
 /** 一条通知 */
 export interface Notification {
@@ -45,7 +54,7 @@ declare module '@deepseek-ai/cordis' {
      * @param msg — 即将投递的通知
      * @returns true = 拦下；返回 undefined / 不返回 = 放行
      */
-    'notify/before-send'(msg: Notification): boolean | void
+    'notify/before-send'(msg: Notification): boolean | undefined
     /**
      * 投递完成后广播一声。
      *

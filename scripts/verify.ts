@@ -11,15 +11,16 @@
  * 这是「约定 → 工具 → 门禁」三层执行力里最后、也是唯一有牙齿的一层。
  * 前面两层（写在文档里的约定、tsc 这类工具）都拦不住「明明能跑但违反了架构」的改动。
  */
-import { fileURLToPath } from 'node:url'
+
 import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { Gate } from './lib/workspace.ts'
-import { gate as packageInvariants } from './verify-package-invariants.ts'
-import { gate as dependencyLayering } from './verify-dependency-layering.ts'
 import { gate as catalog } from './verify-catalog.ts'
-import { gate as envAccess } from './verify-env-access.ts'
-import { gate as runtimeClosure } from './verify-runtime-closure.ts'
+import { gate as dependencyLayering } from './verify-dependency-layering.ts'
 import { gate as effectCleanup } from './verify-effect-cleanup.ts'
+import { gate as envAccess } from './verify-env-access.ts'
+import { gate as packageInvariants } from './verify-package-invariants.ts'
+import { gate as runtimeClosure } from './verify-runtime-closure.ts'
 
 const GATES: Gate[] = [
   packageInvariants,

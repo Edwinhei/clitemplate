@@ -10,7 +10,7 @@
  */
 import { appendFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { Logger, type Context, type Exporter, type Message } from '@deepseek-ai/cordis'
+import { type Context, type Exporter, Logger, type Message } from '@deepseek-ai/cordis'
 import Schema from '@deepseek-ai/schemastery'
 
 export interface Config {
@@ -49,16 +49,20 @@ export class FileExporter implements Exporter {
   export(message: Message): void {
     // 用同步写：这是个 CLI，进程可能在异步写落盘前就退出。
     // 长驻服务应该换成带 flush 的异步队列，代价是要处理退出时的收尾。
-    appendFileSync(this.target, JSON.stringify({
-      ts: new Date(message.ts).toISOString(),
-      sn: message.sn,
-      name: message.name,
-      type: message.type,
-      // 原样保留结构化参数，机器可读
-      args: message.args,
-      // 同时存一份渲染好的文本，人可读。Logger.format 负责解 printf 占位符
-      msg: Logger.format(this, message),
-    }) + '\n', 'utf-8')
+    appendFileSync(
+      this.target,
+      `${JSON.stringify({
+        ts: new Date(message.ts).toISOString(),
+        sn: message.sn,
+        name: message.name,
+        type: message.type,
+        // 原样保留结构化参数，机器可读
+        args: message.args,
+        // 同时存一份渲染好的文本，人可读。Logger.format 负责解 printf 占位符
+        msg: Logger.format(this, message),
+      })}\n`,
+      'utf-8',
+    )
   }
 }
 

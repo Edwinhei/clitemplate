@@ -26,10 +26,10 @@
  * 门禁要拦的是「散落在各个 package.json 里的硬版本」，
  * 不是「全仓库只准有一个版本」—— 那是两件事。
  */
-import { readFileSync, existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import * as yaml from 'js-yaml'
-import { listPackages, type Gate, type Violation } from './lib/workspace.ts'
+import { type Gate, listPackages, type Violation } from './lib/workspace.ts'
 
 /** workspace 内部引用走 workspace: 协议，不进 catalog */
 const INTERNAL_PREFIX = '@ctl/'
@@ -53,10 +53,7 @@ const INTERNAL_PREFIX = '@ctl/'
  * 真要升级：改默认目录那一行，整个 workspace 一起升。
  * 某个包升不动，正确做法是先修那个包，而不是给它开个旧版本目录。
  */
-const SINGLETON = [
-  '@deepseek-ai/cordis',
-  '@deepseek-ai/cordis-plugin-loader',
-]
+const SINGLETON = ['@deepseek-ai/cordis', '@deepseek-ai/cordis-plugin-loader']
 
 interface WorkspaceYaml {
   catalog?: Record<string, string>
@@ -105,7 +102,11 @@ export const gate: Gate = {
           // ── 仓库内部的包 ──
           if (name.startsWith(INTERNAL_PREFIX)) {
             if (range !== 'workspace:*') {
-              v.push({ file, message: `${field}.${name} = "${range}"`, fix: '仓库内部的包一律 "workspace:*"' })
+              v.push({
+                file,
+                message: `${field}.${name} = "${range}"`,
+                fix: '仓库内部的包一律 "workspace:*"',
+              })
             }
             continue
           }
@@ -128,9 +129,10 @@ export const gate: Gate = {
             v.push({
               file,
               message: `${field}.${name} 引用了不存在的目录 "${which}"`,
-              fix: which === 'default'
-                ? 'pnpm-workspace.yaml 里还没有 catalog: 段'
-                : `pnpm-workspace.yaml 的 catalogs: 下面加一个 ${which}:`,
+              fix:
+                which === 'default'
+                  ? 'pnpm-workspace.yaml 里还没有 catalog: 段'
+                  : `pnpm-workspace.yaml 的 catalogs: 下面加一个 ${which}:`,
             })
             continue
           }

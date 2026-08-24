@@ -5,9 +5,10 @@
  *    它不知道通知怎么发出去，也不知道环境值从哪儿读来。
  *    两件事都由 cordis.yml 决定。
  */
-import type { Context } from '@deepseek-ai/cordis'
-import type {} from '@ctl/notify'   // 只引类型声明，运行时被完全擦除
+
 import type {} from '@ctl/env'
+import type {} from '@ctl/notify' // 只引类型声明，运行时被完全擦除
+import type { Context } from '@deepseek-ai/cordis'
 
 export const name = 'tool-notify'
 
@@ -18,7 +19,6 @@ export async function apply(ctx: Context): Promise<void> {
   // 通过服务拿宿主事实，而不是 process.env.CTL_NOTIFY_TO
   const found = ctx.env.get('CTL_NOTIFY_TO')
   const to = found?.value ?? 'ops'
-
 
   await ctx.notify.send({
     to,

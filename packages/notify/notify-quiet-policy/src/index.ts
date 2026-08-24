@@ -10,9 +10,10 @@
  *   emit  广播既成事实，没人能改变它
  *   bail  征求意见，任何一个都能改变结果
  */
+
+import type { Notification } from '@ctl/notify'
 import type { Context } from '@deepseek-ai/cordis'
 import Schema from '@deepseek-ai/schemastery'
-import type { Notification } from '@ctl/notify'
 
 export interface Config {
   /** 安静时段的收件人名单，命中就拦下 */
@@ -29,8 +30,8 @@ export function apply(ctx: Context, config: Config): void {
   const muted = new Set(config.mute)
 
   ctx.on('notify/before-send', (msg: Notification) => {
-    if (!muted.has(msg.to)) return              // ⚠️ 必须 return undefined 才是放行
+    if (!muted.has(msg.to)) return // ⚠️ 必须 return undefined 才是放行
     ctx.logger('notify-quiet-policy').info('拦下发给 %s 的通知：%s', msg.to, msg.title)
-    return true                                  // 非空结果 = 我接了 = 取消投递
+    return true // 非空结果 = 我接了 = 取消投递
   })
 }

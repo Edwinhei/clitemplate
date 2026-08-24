@@ -13,10 +13,10 @@
  * 但基线里那些 disabled: true 的备选项同样需要被声明，
  * 否则某个 profile 一打开就炸。
  */
-import { readFileSync, existsSync, readdirSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import * as yaml from 'js-yaml'
-import { listPackages, allDeclared, type Gate, type Violation } from './lib/workspace.ts'
+import { allDeclared, type Gate, listPackages, type Violation } from './lib/workspace.ts'
 
 interface Entry {
   id?: string
@@ -33,7 +33,11 @@ function collectNames(data: unknown, out: Set<string>): void {
   }
   if (!data || typeof data !== 'object') return
   const entry = data as Entry
-  if (typeof entry.name === 'string' && !entry.name.startsWith('.') && !entry.name.startsWith('cordis:')) {
+  if (
+    typeof entry.name === 'string' &&
+    !entry.name.startsWith('.') &&
+    !entry.name.startsWith('cordis:')
+  ) {
     out.add(entry.name)
   }
   // group 条目的 config 是嵌套的 entry 列表
@@ -69,7 +73,9 @@ export const gate: Gate = {
           data = yaml.load(readFileSync(f, 'utf-8'), { schema: yaml.JSON_SCHEMA })
         } catch {
           // 有 !!js 标签时 JSON_SCHEMA 会解析失败 —— 退回宽松模式只为提取 name
-          data = yaml.load(readFileSync(f, 'utf-8').replace(/!!js\s+/g, ''), { schema: yaml.JSON_SCHEMA })
+          data = yaml.load(readFileSync(f, 'utf-8').replace(/!!js\s+/g, ''), {
+            schema: yaml.JSON_SCHEMA,
+          })
         }
         collectNames(data, found)
         for (const name of found) if (!origin.has(name)) origin.set(name, relative(root, f))

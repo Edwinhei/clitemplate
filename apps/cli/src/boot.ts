@@ -14,21 +14,21 @@
  */
 import { dirname } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { Context } from '@deepseek-ai/cordis'
-import Loader from '@deepseek-ai/cordis-plugin-loader'
-import Timer from '@deepseek-ai/cordis-plugin-timer'
-import Hmr from '@deepseek-ai/cordis-plugin-hmr'
-import ConsoleExporter from '@deepseek-ai/cordis-plugin-logger-console'
-import FileExporter from '@ctl/logger-file'
 import { LaunchEnv, loadLaunchEnv } from '@ctl/env-launch'
+import FileExporter from '@ctl/logger-file'
+import { Context } from '@deepseek-ai/cordis'
+import Hmr from '@deepseek-ai/cordis-plugin-hmr'
 import type { PatchOptions } from '@deepseek-ai/cordis-plugin-include'
+import Loader from '@deepseek-ai/cordis-plugin-loader'
+import ConsoleExporter from '@deepseek-ai/cordis-plugin-logger-console'
+import Timer from '@deepseek-ai/cordis-plugin-timer'
 import { assertEntriesActivated } from './audit.ts'
 
 export async function boot(configPath: string, patches: PatchOptions[] = []): Promise<Context> {
   const ctx = new Context()
 
   // baseUrl 决定 cordis.yml 里的相对路径从哪里算起
-  ctx.baseUrl = pathToFileURL(dirname(configPath)).href + '/'
+  ctx.baseUrl = `${pathToFileURL(dirname(configPath)).href}/`
 
   await ctx.plugin(Loader)
 
@@ -100,7 +100,7 @@ export async function boot(configPath: string, patches: PatchOptions[] = []): Pr
       if (entry.options.id !== includeId) continue
       const tree = entry.subtree as { refresh?: () => Promise<void> } | undefined
       if (typeof tree?.refresh === 'function') {
-        await ctx.hmr.registerConfig(configPath, () => tree.refresh!())
+        await ctx.hmr.registerConfig(configPath, () => tree.refresh?.())
         ctx.logger('boot').info('cordis.yml 已接入热重载')
       }
       break

@@ -3,8 +3,9 @@
  *
  * 它实现契约，但【不知道谁会用它】。
  */
-import { Service, type Context } from '@deepseek-ai/cordis'
+
 import type { Notification, NotifyService } from '@ctl/notify'
+import { type Context, Service } from '@deepseek-ai/cordis'
 
 class ConsoleNotify extends Service implements NotifyService {
   constructor(ctx: Context) {
@@ -21,7 +22,9 @@ class ConsoleNotify extends Service implements NotifyService {
     // 走 ctx.logger 而不是 console.log —— 它自己也是一块招牌，
     // 所以通知内容最终去哪儿（终端 / 文件 / 远程）由装配层决定。
     // 显式指定 logger 名字，不写会用类名推导出的 'console-notify'，和包名对不上。
-    this.ctx.logger('notify-console').info('[%s] %s%s', msg.to, msg.title, msg.body ? ' | ' + msg.body : '')
+    this.ctx
+      .logger('notify-console')
+      .info('[%s] %s%s', msg.to, msg.title, msg.body ? ` | ${msg.body}` : '')
 
     // ② 投递完了广播一声。emit 喊完就走，不等任何人，
     //    也不关心有没有人在听 —— 这正是「我不该知道谁关心」。

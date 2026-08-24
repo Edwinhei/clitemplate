@@ -12,13 +12,13 @@
  */
 import { readFileSync } from 'node:fs'
 import { relative } from 'node:path'
-import { listPackages, listSources, type Gate, type Violation } from './lib/workspace.ts'
+import { type Gate, listPackages, listSources, type Violation } from './lib/workspace.ts'
 
 /** 允许直接读 process.env 的文件（相对仓库根） */
 const ALLOWED = [
-  'apps/cli/src/bin.ts',                    // 引导：CTL_CONFIG / CTL_PROFILE
-  'apps/cli/src/boot.ts',                   // 引导：读不到 ctx.env 的那一段
-  'packages/host/env-launch/src/index.ts',  // 唯一把 process.env 包装成服务的地方
+  'apps/cli/src/bin.ts', // 引导：CTL_CONFIG / CTL_PROFILE
+  'apps/cli/src/boot.ts', // 引导：读不到 ctx.env 的那一段
+  'packages/host/env-launch/src/index.ts', // 唯一把 process.env 包装成服务的地方
 ]
 
 /**
@@ -29,9 +29,7 @@ const ALLOWED = [
  */
 function stripComments(text: string): string {
   const blank = (m: string): string => m.replace(/[^\n]/g, ' ')
-  return text
-    .replace(/\/\*[\s\S]*?\*\//g, blank)
-    .replace(/\/\/[^\n]*/g, blank)
+  return text.replace(/\/\*[\s\S]*?\*\//g, blank).replace(/\/\/[^\n]*/g, blank)
 }
 
 export const gate: Gate = {

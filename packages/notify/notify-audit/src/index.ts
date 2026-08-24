@@ -13,8 +13,9 @@
  * 注意这个包【不 inject notify】—— 它不用 ctx.notify，只听事件。
  * 所以就算全场没有任何 notify 提供方，它照样正常启动，只是永远收不到事件。
  */
-import type { Context } from '@deepseek-ai/cordis'
+
 import type { Notification } from '@ctl/notify'
+import type { Context } from '@deepseek-ai/cordis'
 
 export const name = 'notify-audit'
 
@@ -29,9 +30,8 @@ export function apply(ctx: Context): void {
   ctx.on('notify/sent', (msg: Notification) => {
     count += 1
     byRecipient.set(msg.to, (byRecipient.get(msg.to) ?? 0) + 1)
-    ctx.logger('notify-audit').info(
-      '第 %d 条已投递 → %s（此人共 %d 条）',
-      count, msg.to, byRecipient.get(msg.to),
-    )
+    ctx
+      .logger('notify-audit')
+      .info('第 %d 条已投递 → %s（此人共 %d 条）', count, msg.to, byRecipient.get(msg.to))
   })
 }

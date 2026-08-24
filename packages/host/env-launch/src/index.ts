@@ -15,8 +15,8 @@
  */
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { Service, type Context } from '@deepseek-ai/cordis'
 import type { EnvService, EnvValue } from '@ctl/env'
+import { type Context, Service } from '@deepseek-ai/cordis'
 
 /**
  * 层的名字，也就是 EnvValue.source 的取值。
@@ -136,10 +136,18 @@ class LaunchEnvService extends Service implements EnvService {
     this.impl = new LaunchEnv(loadLaunchEnv({ baseUrl: ctx.baseUrl }))
   }
 
-  get(name: string): EnvValue | undefined { return this.impl.get(name) }
-  getFrom(name: string, sources: string[]): EnvValue | undefined { return this.impl.getFrom(name, sources) }
-  require(name: string): string { return this.impl.require(name) }
-  snapshot(): Record<string, EnvValue> { return this.impl.snapshot() }
+  get(name: string): EnvValue | undefined {
+    return this.impl.get(name)
+  }
+  getFrom(name: string, sources: string[]): EnvValue | undefined {
+    return this.impl.getFrom(name, sources)
+  }
+  require(name: string): string {
+    return this.impl.require(name)
+  }
+  snapshot(): Record<string, EnvValue> {
+    return this.impl.snapshot()
+  }
 }
 
 export const name = 'env-launch'

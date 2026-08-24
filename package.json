@@ -13,9 +13,13 @@
     "ctl:watch": "CTL_WATCH=1 node apps/cli/src/bin.ts",
     "ctl:dump": "node apps/cli/src/bin.ts --dump-config",
     "verify": "node scripts/verify.ts",
-    "check": "pnpm typecheck && pnpm verify"
+    "check": "pnpm lint && pnpm typecheck && pnpm verify",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "devDependencies": {
+    "@biomejs/biome": "catalog:",
     "@types/js-yaml": "catalog:",
     "js-yaml": "catalog:",
     "tsx": "catalog:",

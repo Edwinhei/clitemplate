@@ -7,8 +7,12 @@
  */
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import {
+  applyEntryPatches,
+  entryListSchema,
+  type PatchOptions,
+} from '@deepseek-ai/cordis-plugin-include'
 import * as yaml from 'js-yaml'
-import { applyEntryPatches, entryListSchema, type PatchOptions } from '@deepseek-ai/cordis-plugin-include'
 
 /**
  * 读一份 patch 文件。

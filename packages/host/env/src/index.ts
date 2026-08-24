@@ -9,7 +9,16 @@
  * 所以把「环境」定义成一块招牌，由装配层决定谁来挂。
  * 这个包零实现，和 @ctl/notify 一样只是一纸合同。
  */
-import type { Context } from '@deepseek-ai/cordis'
+
+// ⚠️ 这一行不能删。
+// 底下的 `declare module '@deepseek-ai/cordis'` 是【模块增强】，
+// TypeScript 要求本文件先引用过那个模块，否则报
+//   TS2664: Invalid module name in augmentation, module ... cannot be found
+// 空的 `{}` 就够了 —— 我们只是要建立引用关系，不需要任何具体的名字。
+//
+// lint 工具会把它当成「未使用的导入」（Biome / ESLint / oxlint 三家都会）。
+// 别信 —— 只有 tsc 说了算。
+import type {} from '@deepseek-ai/cordis'
 
 /** 一个环境值，连同它的来源 */
 export interface EnvValue {

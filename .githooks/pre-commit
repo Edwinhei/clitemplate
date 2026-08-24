@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# 提交前门禁：只管格式，且【只管格式】。
+#
+# ═══════════════════════════════════════════════════════════════
+# 为什么本地只拦格式，别的都交给 CI
+# ═══════════════════════════════════════════════════════════════
+#
+# 格式化是【确定性】的：它只重排空白、引号、换行和 import 顺序，
+# 不改变任何语义，也不需要你做判断。这种检查拦得起 —— 它不会冤枉你。
+#
+# lint 规则不一样，它会误报。真实例子（本仓库）：
+#   Biome / ESLint / oxlint 三家都把契约包里的
+#     import type {} from '@deepseek-ai/cordis'
+#   报成「未使用的导入」。但删掉它 tsc 立刻报
+#     TS2664: Invalid module name in augmentation
+#   —— 那行是模块增强的必需前提，静态分析看不出来。
+#
+# 拦一次误报，就会有人加 --no-verify；加成习惯之后整套约束全废。
+# 所以：**会误伤的检查，一律不放在提交前。**
+#
+# 分工：
+#   提交前  格式（确定性，自动修，修不好才拦）
+#   CI      lint + typecheck + 架构门禁 + 冒烟（会误伤的、需要思考的，全在这）
+#
+# 装上方式：pnpm install 会执行 prepare 脚本把 core.hooksPath 指到本目录，
+# 不需要 husky；Biome 自带 --staged，也不需要 lint-staged。
+
+set -e
+
+STAGED=$(git diff --name-only --cached --diff-filter=ACMR)
+[ -z "$STAGED" ] && exit 0
+
+# ── ① 自动修：格式 + import 顺序。--linter-enabled=false 关掉所有 lint 规则 ──
+pnpm exec biome check --staged --write --linter-enabled=false --no-errors-on-unmatched >/dev/null 2>&1 || true
+
+# ── ② 把改过的文件重新暂存，否则修复进不了这次提交 ──
+echo "$STAGED" | while read -r f; do
+  [ -f "$f" ] && git add "$f"
+done
+
+# ── ③ 复查：还有格式问题说明自动修不了（多半是语法错误），这时候拦 ──
+if ! pnpm exec biome check --staged --linter-enabled=false --no-errors-on-unmatched; then
+  echo ""
+  echo "❌ 格式化没能修好这些文件，多半是语法有问题。"
+  echo "   看详情：pnpm exec biome check --staged --linter-enabled=false"
+  exit 1
+fi
+
+exit 0

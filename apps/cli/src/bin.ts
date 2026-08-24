@@ -1,7 +1,7 @@
-import { resolve, dirname } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
-import { boot } from './boot.ts'
 import type { PatchOptions } from '@deepseek-ai/cordis-plugin-include'
+import { boot } from './boot.ts'
 import { dumpConfig, loadProfilePatches } from './profile.ts'
 
 const argv = process.argv.slice(2)
@@ -29,7 +29,7 @@ const DEFAULT_CONFIG = resolve(dirname(fileURLToPath(import.meta.url)), '../cord
 
 // 环境变量可以整份换掉 —— 「同一个程序，不同组合」的最简形式
 const configPath = resolve(process.env.CTL_CONFIG ?? DEFAULT_CONFIG)
-const baseUrl = pathToFileURL(dirname(configPath)).href + '/'
+const baseUrl = `${pathToFileURL(dirname(configPath)).href}/`
 
 // profile 是【引导期的事实】，和 CTL_LOG_FILE / CTL_WATCH 同一层：
 // 只认 shell / CI 传进来的，不接受 .env —— 否则一个提交进版本库的文件

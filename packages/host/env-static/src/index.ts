@@ -4,9 +4,10 @@
  * 不碰 process，所以测试、浏览器、云端沙箱里都能用。
  * 它和 env-process 挂同一块招牌，消费方分辨不出差别 —— 这正是重点。
  */
-import { Service, type Context } from '@deepseek-ai/cordis'
-import Schema from '@deepseek-ai/schemastery'
+
 import type { EnvService, EnvValue } from '@ctl/env'
+import { type Context, Service } from '@deepseek-ai/cordis'
+import Schema from '@deepseek-ai/schemastery'
 
 export interface Config {
   /** 直接写死的环境值 */
